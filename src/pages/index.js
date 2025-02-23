@@ -1,176 +1,194 @@
-import * as React from "react"
+import { graphql, Link } from "gatsby"
+import orderBy from "lodash/orderBy"
+import React, { useState } from "react"
+import { Card, Divider, Form, Grid, Header, Label, List, Radio } from "semantic-ui-react"
 
-const pageStyles = {
-  color: "#232129",
-  padding: 96,
-  fontFamily: "-apple-system, Roboto, sans-serif, serif",
-}
-const headingStyles = {
-  marginTop: 0,
-  marginBottom: 64,
-  maxWidth: 320,
-}
-const headingAccentStyles = {
-  color: "#663399",
-}
-const paragraphStyles = {
-  marginBottom: 48,
-}
-const codeStyles = {
-  color: "#8A6534",
-  padding: 4,
-  backgroundColor: "#FFF4DB",
-  fontSize: "1.25rem",
-  borderRadius: 4,
-}
-const listStyles = {
-  marginBottom: 96,
-  paddingLeft: 0,
-}
-const listItemStyles = {
-  fontWeight: 300,
-  fontSize: 24,
-  maxWidth: 560,
-  marginBottom: 30,
-}
+import ChartsWrapper from "../components/charts-wrapper"
+import Layout from "../components/layout"
+import SEO from "../components/seo"
 
-const linkStyle = {
-  color: "#8954A8",
-  fontWeight: "bold",
-  fontSize: 16,
-  verticalAlign: "5%",
-}
+const IndexPage = ({ data }) => {
+  // List of all boards
+  let boards = data.boards.edges.map(e => e.node.data)
+  boards.forEach(b => b.Type = "Board")
 
-const docLinkStyle = {
-  ...linkStyle,
-  listStyleType: "none",
-  marginBottom: 24,
-}
+  let orderedBoards = orderBy(boards, [boards => boards.Done, boards => boards.Name], ['asc', 'asc'])
+  let readyBoards = orderedBoards.filter((o) => o.Done);
 
-const descriptionStyle = {
-  color: "#232129",
-  fontSize: 14,
-  marginTop: 10,
-  marginBottom: 0,
-  lineHeight: 1.25,
-}
+  // Stories
+  let stories = data.stories.edges.map(e => e.node.data)
 
-const docLink = {
-  text: "Documentation",
-  url: "https://www.gatsbyjs.com/docs/",
-  color: "#8954A8",
-}
+  // Chart controls
+  let chartOptions = [
+    {
+      value: "All",
+      label: "All active board members",
+    },
+    {
+      value: "City",
+      label: "CITY"
+    },
+    {
+      value: "County",
+      label: "COUNTY"
+    },
+    {
+      value: "Joint",
+      label: "Joint CITY COUNTY"
+    }
+  ]
+  const [chartFilter, setChartFilter] = useState('All');
 
-const badgeStyle = {
-  color: "#fff",
-  backgroundColor: "#088413",
-  border: "1px solid #088413",
-  fontSize: 11,
-  fontWeight: "bold",
-  letterSpacing: 1,
-  borderRadius: 4,
-  padding: "4px 6px",
-  display: "inline-block",
-  position: "relative",
-  top: -2,
-  marginLeft: 10,
-  lineHeight: 1,
-}
-
-const links = [
-  {
-    text: "Tutorial",
-    url: "https://www.gatsbyjs.com/docs/tutorial/getting-started/",
-    description:
-      "A great place to get started if you're new to web development. Designed to guide you through setting up your first Gatsby site.",
-    color: "#E95800",
-  },
-  {
-    text: "How to Guides",
-    url: "https://www.gatsbyjs.com/docs/how-to/",
-    description:
-      "Practical step-by-step guides to help you achieve a specific goal. Most useful when you're trying to get something done.",
-    color: "#1099A8",
-  },
-  {
-    text: "Reference Guides",
-    url: "https://www.gatsbyjs.com/docs/reference/",
-    description:
-      "Nitty-gritty technical descriptions of how Gatsby works. Most useful when you need detailed information about Gatsby's APIs.",
-    color: "#BC027F",
-  },
-  {
-    text: "Conceptual Guides",
-    url: "https://www.gatsbyjs.com/docs/conceptual/",
-    description:
-      "Big-picture explanations of higher-level Gatsby concepts. Most useful for building understanding of a particular topic.",
-    color: "#0D96F2",
-  },
-  {
-    text: "Plugin Library",
-    url: "https://www.gatsbyjs.com/plugins",
-    description:
-      "Add functionality and customize your Gatsby site or app with thousands of plugins built by our amazing developer community.",
-    color: "#8EB814",
-  },
-  {
-    text: "Build and Host",
-    url: "https://www.gatsbyjs.com/cloud",
-    badge: true,
-    description:
-      "Now you’re ready to show the world! Give your Gatsby site superpowers: Build and host on Gatsby Cloud. Get started for free!",
-    color: "#663399",
-  },
-]
-
-const IndexPage = () => {
   return (
-    <main style={pageStyles}>
-      <h1 style={headingStyles}>
-        Congratulations
-        <br />
-        <span style={headingAccentStyles}>— you just made a Gatsby site! 🎉🎉🎉</span>
-      </h1>
-      <p style={paragraphStyles}>
-        Edit <code style={codeStyles}>src/pages/index.js</code> to see this page
-        update in real-time. 😎
-      </p>
-      <ul style={listStyles}>
-        <li style={docLinkStyle}>
-          <a
-            style={linkStyle}
-            href={`${docLink.url}?utm_source=starter&utm_medium=start-page&utm_campaign=minimal-starter`}
-          >
-            {docLink.text}
-          </a>
-        </li>
-        {links.map(link => (
-          <li key={link.url} style={{ ...listItemStyles, color: link.color }}>
-            <span>
-              <a
-                style={linkStyle}
-                href={`${link.url}?utm_source=starter&utm_medium=start-page&utm_campaign=minimal-starter`}
-              >
-                {link.text}
-              </a>
-              {link.badge && (
-                <span style={badgeStyle} aria-label="New Badge">
-                  NEW!
-                </span>
-              )}
-              <p style={descriptionStyle}>{link.description}</p>
-            </span>
-          </li>
-        ))}
-      </ul>
-      <img
-        alt="Gatsby G Logo"
-        src="data:image/svg+xml,%3Csvg width='24' height='24' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M12 2a10 10 0 110 20 10 10 0 010-20zm0 2c-3.73 0-6.86 2.55-7.75 6L14 19.75c3.45-.89 6-4.02 6-7.75h-5.25v1.5h3.45a6.37 6.37 0 01-3.89 4.44L6.06 9.69C7 7.31 9.3 5.63 12 5.63c2.13 0 4 1.04 5.18 2.65l1.23-1.06A7.959 7.959 0 0012 4zm-8 8a8 8 0 008 8c.04 0 .09 0-8-8z' fill='%23639'/%3E%3C/svg%3E"
-      />
-    </main>
+    <Layout>
+      <Grid.Row style={{ marginTop: `1em` }}>
+        <Grid.Column>
+          <Header as='h2' style={{ borderBottom: `5px solid #418cff`, width: `100%` }}>
+            In the spotlight: {readyBoards?.length} panels that make decisions for Pittsburgh, Allegheny County
+          </Header>
+        </Grid.Column>
+      </Grid.Row>
+
+      <Grid.Row>
+        {/* LIST OF ALL BOARDS */}
+        <Grid.Column>
+          <List divided relaxed size='large' style={{ height: `550px`, overflowY: `scroll` }}>
+            {readyBoards.map((b, i) => (
+              <List.Item key={i}>
+                {b.Done ?
+                  <Link to={`/board/${b.Slug}`}>{b.Name}</Link>
+                  : <span style={{ color: `rgba(0,0,0,0.4)` }}>{b.Name}</span>
+                }
+                {b.Done ?
+                  b.Govt_Level.map((g, i) =>
+                    <Label horizontal key={i} color={g === 'City' ? `orange` : `yellow`} style={{ marginLeft: `6px` }}>
+                      {g.toUpperCase()}
+                    </Label>
+                  ) : <Label key={i} style={{ marginLeft: `6px` }}>
+                    {`COMING SOON`}
+                  </Label>
+                }
+              </List.Item>
+            ))}
+          </List>
+        </Grid.Column>
+        {/* FEATURED STORIES */}
+        <Grid.Column>
+          <Card.Group>
+            {stories.map((s, i) => (
+              <Card key={i} fluid style={{ backgroundColor: `#d3e3ff`, marginLeft: 0 }}>
+                <Card.Content>
+                  <Card.Header style={{ marginBottom: 0 }}>
+                    <a href={s.Link} target="_blank" rel="noopener noreferrer">{s.Title}</a>
+                  </Card.Header>
+                  <Card.Meta>{s.Date}</Card.Meta>
+                  <Divider />
+                  <Card.Description>
+                    {"Featuring "}
+                    {s.Boards?.map((b, i) => (
+                      <>
+                      <Link key={i} to={`/board/${b.data.Slug}`}>{b.data.Name}</Link>
+                      {s.Boards.length > 1 && i < s.Boards.length - 1 ? ", ": ""}
+                      </>
+                    ))}
+                  </Card.Description>
+                </Card.Content>
+              </Card>
+            ))}
+          </Card.Group>
+        </Grid.Column>
+      </Grid.Row>
+
+      {/* ABOUT THIS PROJECT */}
+      <Grid.Row>
+        <Grid.Column>
+          <Header as='h2' style={{ borderBottom: `5px solid #418cff`, width: `100%` }}>About this project</Header>
+          <p>The Pittsburgh region is run in large part by around 500 unelected members of boards, commissions and other public agencies.</p>
+          <p>Board members usually don’t get headlines. Those go to the mayor, the county executive, council members, controllers and directors. But boards often push for new policies, award contracts and grants, address demands for inclusion and equity, and more.</p>
+          <p>The board structure is more diverse than it was 15 years ago, but gaps remain. It’s time for deeper exploration.</p>
+          <p>PublicSource’s new Board Explorer sheds light on these panels and their roles, providing information about each member and inviting analysis of this important part of the region’s power structure.</p>
+          <p>We have included 56 county, city and joint boards and commissions. As more panels form and membership changes, we'll periodically update.</p>
+          <p>Explore with us, and, if you have a story idea or something you think we should investigate, please <Link to="/contact" style={{ borderBottom: `2px solid #418cff` }}>let us know</Link>.</p>
+        </Grid.Column>
+      </Grid.Row>
+
+      {/* CHARTS */}
+      <Grid.Row>
+        <Grid.Column>
+          <Header as='h2' style={{ borderBottom: `5px solid #418cff`, width: `100%` }}>
+            How diverse are the city and county boards and commissions?
+          </Header>
+          <Form style={{ background: `#d3e3ff`, padding: `1em` }}>
+            <Header as='h4'>Filter the charts by jurisdiction:</Header>
+            {chartOptions.map((c, i) => (
+              <Form.Field inline key={i}>
+                <Radio
+                  label={{
+                    children: c.value === 'All' ? c.label
+                      : c.value === "Joint" ? <>Joint <Label color='orange'>CITY</Label> <Label color='yellow'>COUNTY</Label></>
+                        : <><Label color={c.value === 'City' ? 'orange' : 'yellow'}>{c.label}</Label></>
+                  }}
+                  name='radioGroup'
+                  value={c.value}
+                  checked={chartFilter === c.value}
+                  onChange={() => setChartFilter(c.value)}
+                />
+              </Form.Field>
+            ))}
+          </Form>
+        </Grid.Column>
+      </Grid.Row>
+      <ChartsWrapper filter={chartFilter} />
+    </Layout>
   )
 }
 
+export const query = graphql`
+  query AllNodesQuery {
+    boards: allAirtable(filter: {table: {eq: "Boards"}}) {
+      totalCount
+      edges {
+        node {
+          data {
+            Name
+            Acronymn
+            Slug
+            Done
+            Next
+            Govt_Level
+            Number_of_Members
+          }
+        }
+      }
+    }
+    stories: allAirtable(filter: {table: {eq: "Stories"}}, sort: {data: {Date: DESC}}, limit: 3) {
+      totalCount
+      edges {
+        node {
+          data {
+            Title
+            Date(formatString: "MMMM D, YYYY")
+            Link
+            Boards {
+              data {
+                Name
+                Slug
+              }
+            }
+            Person {
+              data {
+                Name
+                Slug
+              }
+            }
+          }
+        }
+      }
+    }
+  }`;
+
 export default IndexPage
 
-export const Head = () => <title>Home Page</title>
+export const Head = () => (
+  <SEO title="Home" />
+)

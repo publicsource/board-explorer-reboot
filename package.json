@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "private": true,
   "description": "board-explorer",
-  "author": "Jessica McInchak",
+  "author": "PublicSource",
   "keywords": [
     "gatsby"
   ],
@@ -15,8 +15,18 @@
     "clean": "gatsby clean"
   },
   "dependencies": {
+    "date-fns": "^4.1.0",
     "gatsby": "^5.14.1",
+    "gatsby-plugin-less": "^7.14.0",
+    "gatsby-plugin-sitemap": "^6.14.0",
+    "gatsby-plugin-web-font-loader": "^1.0.4",
+    "gatsby-source-airtable": "^2.4.3",
+    "highcharts": "^12.1.2",
+    "highcharts-react-official": "^3.2.1",
+    "lodash": "^4.17.21",
     "react": "^18.2.0",
-    "react-dom": "^18.2.0"
+    "react-dom": "^18.2.0",
+    "semantic-ui-less": "^2.5.0",
+    "semantic-ui-react": "^2.1.5"
   }
 }
