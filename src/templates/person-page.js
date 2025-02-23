@@ -1,10 +1,10 @@
-import React from "react"
-import { graphql, Link } from "gatsby"
-import { Header, Grid, Breadcrumb, Table, Item, Label } from "semantic-ui-react"
-import _ from "lodash"
+import { graphql, Link } from "gatsby";
+import _ from "lodash";
+import React from "react";
+import { Breadcrumb, Grid, Header, Item, Label, Table } from "semantic-ui-react";
 
-import Layout from "../components/layout"
-import SEO from "../components/seo"
+import Layout from "../components/layout";
+import SEO from "../components/seo";
 
 // styles
 const tableKey = {
@@ -179,6 +179,7 @@ export const query = graphql`
             Name
             Slug
             Number_of_Positions
+            Birthdate (formatString: "YYYY-MM-DD")
             Age
             Residence
             Work
@@ -219,9 +220,29 @@ export const query = graphql`
 export default PersonPage;
 
 export const Head = ({ data }) => {
-  let person = data.person.edges[0].node.data
+  const person = data.person.edges[0].node.data
+  const activePositions = _.filter(person.Positions, p => p.data.Expired === null)
  
   return (
-    <SEO title={`${person.Name}`} />
+    <SEO 
+      title={`${person.Name}`}
+      jsonLdSchema={{
+        "@context": "https://schema.org",
+        "@type": "Person",
+        name: person.Name,
+        birthDate: person.Birthdate,
+        homeLocation: person.Residence,
+        email: person.Public_Email,
+        telephone: person.Public_Phone,
+        alumniOf: {
+          "@type": "CollegeOrUniversity",
+          name: [person.College, person.College2, person.College3].filter(Boolean),
+        },
+        memberOf: {
+          "@type": "Organisation",
+          name: activePositions.map((p) => p.data.Board[0].data.Name)
+        },
+      }}
+    />
   )
 }
