@@ -1,12 +1,16 @@
 import React from 'react'
 import Highcharts from 'highcharts'
 import HighchartsReact from 'highcharts-react-official'
-import addTreemapModule from 'highcharts/modules/treemap'
+import HighchartsTreeMap from 'highcharts/modules/treemap'
 import _ from "lodash"
 
-// if (typeof Highcharts === 'object') {
-//     addTreemapModule(Highcharts)
-// }
+try {
+    // Note Highcharts still on v11, not 12.1.2, because of this module loading change
+    //  https://github.com/highcharts/highcharts-react/issues/502#issuecomment-2531518313
+    HighchartsTreeMap(Highcharts);
+} catch (e) {
+    console.error("Highcharts tree map error: ", e);
+}
 
 const RaceTreemapChart = ({ data, filter }) => {
     let colors = {

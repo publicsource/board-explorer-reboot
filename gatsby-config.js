@@ -6,6 +6,9 @@ require("dotenv").config({
  * @type {import('gatsby').GatsbyConfig}
  */
 module.exports = {
+  flags: {
+    DEV_SSR: true
+  },
   siteMetadata: {
     title: `Board Explorer`,
     description: `Understanding Pittsburgh's unelected power structure`,
