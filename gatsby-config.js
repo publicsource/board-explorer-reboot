@@ -1,3 +1,5 @@
+const adapter = require("gatsby-adapter-netlify").default;
+
 require("dotenv").config({
   path: `.env.${process.env.NODE_ENV}`,
 });
@@ -16,6 +18,10 @@ module.exports = {
     siteUrl: `https://boards.publicsource.org`,
     image: `/ps_logo_square.png`,
   },
+  adapter: adapter({
+    excludeDatastoreFromEngineFunction: false,
+    imageCDN: false,
+  }),
   plugins: [
     `gatsby-plugin-sitemap`,
     `gatsby-plugin-less`,
@@ -40,11 +46,6 @@ module.exports = {
             tableName: `People`,
             tableLinks: [`Positions`]
           },
-          // {
-          //   baseId: `appqQXm5Zh9nWy2hq`,
-          //   tableName: `Callouts`,
-          //   tableLinks: [`Person`, `Boards`]
-          // },
           {
             baseId: `appqQXm5Zh9nWy2hq`,
             tableName: `Stories`,
@@ -61,5 +62,18 @@ module.exports = {
         }
       }
     },
+    {
+      resolve: `gatsby-plugin-google-analytics`,
+      options: {
+        trackingId: `UA-24107680-1`
+      }
+    },
+    // {
+    //   resolve: `gatsby-plugin-parsely-analytics`, // not compatible with Gatsby v5
+    //   options: {
+    //     apikey: `publicsource.org`,
+    //     enableInDevelopment: false
+    //   }
+    // },
   ],
 };
