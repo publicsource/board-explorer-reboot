@@ -1,49 +1,37 @@
-<p align="center">
-  <a href="https://www.gatsbyjs.com/?utm_source=starter&utm_medium=readme&utm_campaign=minimal-starter">
-    <img alt="Gatsby" src="https://www.gatsbyjs.com/Gatsby-Monogram.svg" width="60" />
-  </a>
-</p>
-<h1 align="center">
-  Gatsby Minimal Starter
-</h1>
+# Board Explorer
 
-## 🚀 Quick start
+Board Explore is a tool from PublicSource to navigate Pittsburgh's unelected power structures. It's powered by a dataset of public authorities and the people that serve on them. Find it at https://boards.publicsource.org/
 
-1.  **Create a Gatsby site.**
+You can find our first iteration of this project from 2019 at https://github.com/publicsource/pittsburgh-powermap.
 
-    Use the Gatsby CLI to create a new site, specifying the minimal starter.
+## Develop
 
-    ```shell
-    # create a new Gatsby site using the minimal starter
-    npm init gatsby
-    ```
+This site is built using [Gatsby's Minimal Starter](https://www.gatsbyjs.com/?utm_source=starter&utm_medium=readme&utm_campaign=minimal-starter). 
 
-2.  **Start developing.**
+```shell
+cd board-explorer-reboot
+npm run develop
+```
 
-    Navigate into your new site’s directory and start it up.
+Copy `.env.example` to `.evn.development` & `.env.production` and add your Airtable API key.
 
-    ```shell
-    cd my-gatsby-site/
-    npm run develop
-    ```
+Resources:
+- [Documentation](https://www.gatsbyjs.com/docs/?utm_source=starter&utm_medium=readme&utm_campaign=minimal-starter)
+- [Tutorials](https://www.gatsbyjs.com/docs/tutorial/?utm_source=starter&utm_medium=readme&utm_campaign=minimal-starter)
+- [Guides](https://www.gatsbyjs.com/docs/how-to/?utm_source=starter&utm_medium=readme&utm_campaign=minimal-starter)
+- [API Reference](https://www.gatsbyjs.com/docs/api-reference/?utm_source=starter&utm_medium=readme&utm_campaign=minimal-starter)
+- [Plugin Library](https://www.gatsbyjs.com/plugins?utm_source=starter&utm_medium=readme&utm_campaign=minimal-starter)
+- [Cheat Sheet](https://www.gatsbyjs.com/docs/cheat-sheet/?utm_source=starter&utm_medium=readme&utm_campaign=minimal-starter)
 
-3.  **Open the code and start customizing!**
+## Deploy
 
-    Your site is now running at http://localhost:8000!
+[![Netlify Status](https://api.netlify.com/api/v1/badges/6a3b75ba-5e48-4c5a-9913-d618da39fcad/deploy-status)](https://app.netlify.com/sites/happy-kirch-e5ac5b/deploys)
 
-    Edit `src/pages/index.js` to see your site update in real-time!
+This project is currently hosted and deployed on Netlify.
 
-4.  **Learn more**
+Two ways to deploy:
+1. Edit and push code changes to GitHub. Opening a pull request will automatically generate a Netlify branch deploy preview of your changes. When your pull request is approved and merged, updates to the `main` branch of this repository are automatically published to production.
 
-    - [Documentation](https://www.gatsbyjs.com/docs/?utm_source=starter&utm_medium=readme&utm_campaign=minimal-starter)
-    - [Tutorials](https://www.gatsbyjs.com/docs/tutorial/?utm_source=starter&utm_medium=readme&utm_campaign=minimal-starter)
-    - [Guides](https://www.gatsbyjs.com/docs/how-to/?utm_source=starter&utm_medium=readme&utm_campaign=minimal-starter)
-    - [API Reference](https://www.gatsbyjs.com/docs/api-reference/?utm_source=starter&utm_medium=readme&utm_campaign=minimal-starter)
-    - [Plugin Library](https://www.gatsbyjs.com/plugins?utm_source=starter&utm_medium=readme&utm_campaign=minimal-starter)
-    - [Cheat Sheet](https://www.gatsbyjs.com/docs/cheat-sheet/?utm_source=starter&utm_medium=readme&utm_campaign=minimal-starter)
+2. Edit data in Airtable (no code edits) and manually trigger a deploy on Netlify. From the site overview page navigate to "Production deploys" >> "Trigger deploy" button in upper right >> "Clear cache and deploy site". This will show up as `main@HEAD` in the list of deploys. The green "Published" tag indicates it's live. 
 
-## 🚀 Quick start (Netlify)
-
-Deploy this starter with one click on [Netlify](https://app.netlify.com/signup):
-
-[<img src="https://www.netlify.com/img/deploy/button.svg" alt="Deploy to Netlify" />](https://app.netlify.com/start/deploy?repository=https://github.com/gatsbyjs/gatsby-starter-minimal)
+If something looks wrong once it's live, you can always "Go to deploy details" of the one prior deploy in the list and click "Publish Deploy" to revert your changes.
