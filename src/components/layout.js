@@ -8,6 +8,7 @@
 import React from "react"
 import PropTypes from "prop-types"
 import { Grid } from "semantic-ui-react"
+import { Script } from "gatsby"
 
 import HeaderWrapper from "./header-wrapper"
 
@@ -45,6 +46,7 @@ const Layout = ({ lastUpdated, children }) => (
         {lastUpdated && <span style={{ paddingBottom: '.25em' }}>Last updated {lastUpdated}</span>}
         <span>© Copyright {new Date().getFullYear()}, PublicSource</span>
       </div>
+      <Script id="parsely-analytics" src="https://cdn.parsely.com/keys/publicsource.org/p.js" />
     </footer>
   </>
 )
