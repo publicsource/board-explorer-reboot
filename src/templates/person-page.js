@@ -35,7 +35,7 @@ const PersonPage = ({ data }) => {
   let expiredPositions = _.filter(person.Positions, p => p.data.Expired === true)
 
   return (
-    <Layout>
+    <Layout lastUpdated={data.globalLastStory.edges[0].node.data.Date}>
       <Grid.Row style={{ marginTop: `1em`, display: 'flex', flexDirection: 'column' }}>
         <Grid.Column>
           <Breadcrumb>
@@ -210,6 +210,16 @@ export const query = graphql`
                 }
               }
             }
+          }
+        }
+      }
+    }
+    globalLastStory: allAirtable(filter: {table: {eq: "Stories"}}, sort: {data: {Date: DESC}}, limit: 1) {
+      totalCount
+      edges {
+        node {
+          data {
+            Date(formatString: "M/D/YYYY")
           }
         }
       }

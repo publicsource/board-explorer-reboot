@@ -14,7 +14,7 @@ import HeaderWrapper from "./header-wrapper"
 import 'semantic-ui-less/semantic.less'
 import "./layout.css"
 
-const Layout = ({ children }) => (
+const Layout = ({ lastUpdated, children }) => (
   <>
     <div style={{ minHeight: `100vh`, marginBottom: `-60px` }}>
       <HeaderWrapper />
@@ -42,7 +42,7 @@ const Layout = ({ children }) => (
         height: `60px`,
       }}>
       <div style={{ display: "flex", flexDirection: "column", alignItems: "center" }}>
-        <span style={{ paddingBottom: '.25em' }}>Last updated {new Date().toLocaleDateString()}</span>
+        {lastUpdated && <span style={{ paddingBottom: '.25em' }}>Last updated {lastUpdated}</span>}
         <span>© Copyright {new Date().getFullYear()}, PublicSource</span>
       </div>
     </footer>
