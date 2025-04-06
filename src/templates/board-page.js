@@ -28,7 +28,7 @@ const BoardPage = ({ data }) => {
   )
 
   return (
-    <Layout>
+    <Layout lastUpdated={data.globalLastStory.edges[0].node.data.Date}>
       <Grid.Row style={{ marginTop: `1em`, display: 'flex', flexDirection: 'column' }}>
         <Grid.Column>
           <Breadcrumb>
@@ -171,6 +171,16 @@ export const query = graphql`
                 Date(formatString: "MMMM D, YYYY")
               }
             }
+          }
+        }
+      }
+    }
+    globalLastStory: allAirtable(filter: {table: {eq: "Stories"}}, sort: {data: {Date: DESC}}, limit: 1) {
+      totalCount
+      edges {
+        node {
+          data {
+            Date(formatString: "M/D/YYYY")
           }
         }
       }

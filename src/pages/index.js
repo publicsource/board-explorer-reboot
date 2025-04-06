@@ -17,6 +17,7 @@ const IndexPage = ({ data }) => {
 
   // Stories
   let stories = data.stories.edges.map(e => e.node.data)
+  const lastUpdatedStoryDate = new Date(stories[0].Date).toLocaleDateString(); // GraphQL query sorted DESC by default
 
   // Chart controls
   let chartOptions = [
@@ -40,7 +41,7 @@ const IndexPage = ({ data }) => {
   const [chartFilter, setChartFilter] = useState('All');
 
   return (
-    <Layout>
+    <Layout lastUpdated={lastUpdatedStoryDate}>
       <Grid.Row style={{ marginTop: `1em` }}>
         <Grid.Column>
           <Header as='h2' style={{ borderBottom: `5px solid #418cff`, width: `100%` }}>
@@ -170,12 +171,6 @@ export const query = graphql`
             Date(formatString: "MMMM D, YYYY")
             Link
             Boards {
-              data {
-                Name
-                Slug
-              }
-            }
-            Person {
               data {
                 Name
                 Slug
