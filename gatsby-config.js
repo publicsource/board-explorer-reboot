@@ -68,8 +68,17 @@ module.exports = {
         trackingId: `UA-24107680-1`
       }
     },
+    {
+      resolve: "gatsby-plugin-google-tagmanager",
+      options: {
+        id: "G-CCLXQK5C14",
+        includeInDevelopment: false,
+        defaultDataLayer: { platform: "gatsby" },
+        enableWebVitalsTracking: true,
+      },
+    },
     // {
-    //   resolve: `gatsby-plugin-parsely-analytics`, // not compatible with Gatsby v5
+    //   resolve: `gatsby-plugin-parsely-analytics`, // not compatible with Gatsby v5, see Script in layout.js instead
     //   options: {
     //     apikey: `publicsource.org`,
     //     enableInDevelopment: false
